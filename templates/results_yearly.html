@@ -1,0 +1,12 @@
+{% extends 'layouts/base.html' %} {% block body %}
+<div class="container">
+    <h1>Rice Prices Forecast for {{ year }}</h1>
+
+<h2>Forecasted Prices Table</h2>
+{{ forecast_df | safe }}
+
+<h2>Forecasted Prices Plot</h2>
+<img src="data:image/png;base64,{{ plot }}" alt="Rice Prices Plot">
+</div>
+
+{% endblock %}

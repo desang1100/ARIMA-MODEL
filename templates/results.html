@@ -1,0 +1,32 @@
+{% extends 'layouts/base.html' %} {% block body %}
+<!-- <h1>Results</h1>
+    <div class="container">
+        <h2>Monthly Forecast</h2>
+        <h3>Predicted prices for next month: {{ next_month }}</h3>
+        <div class="container">
+            {{ monthly_forecast_table | safe }}
+        </div>
+        <img src="data:image/png;base64,{{ monthly_plot }}" alt="Monthly Rice Prices Forecast">
+    </div>
+    
+    <div class="container" style="width: 250px; height: 100vh;">
+        <h2>Yearly Forecast</h2>
+        <h3>Predicted prices for the next year: {{ next_year }}</h3>
+        <div  class="container">
+            {{ yearly_forecast_table | safe }}
+        </div>
+        <img src="data:image/png;base64,{{ yearly_plot }}" alt="Yearly Rice Prices Forecast">
+    </div>
+     -->
+
+     <body>
+        <h1>Results</h1>
+        <h2>Predicted prices for next month: {{ next_month }}</h2>
+        {{ forecast_df | safe }}
+        <img src="data:image/png;base64,{{ plot }}" alt="Rice Prices Forecast">
+
+       
+        
+    </body>
+
+{% endblock %}
