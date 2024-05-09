@@ -70,7 +70,7 @@ def predict():
         #-----------------YEARLY------------------------------------------------------------------------------------------------------>>>>>>>>
         
         
-        return render_template('results_yearly.html', next_month=next_month, forecast_df=forecast_df.to_html(index=False), plot=img_base64)
+        return render_template('results.html', next_month=next_month, forecast_df=forecast_df.to_html(index=False), plot=img_base64)
     
 @app.route('/predict_years', methods=['POST'])
 def predict_years():
