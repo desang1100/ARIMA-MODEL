@@ -1,34 +1,36 @@
 
 {% extends 'layouts/base.html' %} {% block body %}
- <div class="container d-flex justify-content-center align-content-center pt-5 mt-5">
-        <div class="card shadow-lg m-5 rounded" style="width: 40rem; height: 30rem;">
-            <img src="/static/img/rice-card.png" class="card-img-top" style="height: 60%;" alt="monthly">
-            <h5 class=" d-flex justify-content-center mt-3">Upload CSV File</h5>
-            
-            <form class="mx-4" action="/predict" method="post" enctype="multipart/form-data">
-                <h6><label for="formFile" class="form-label mt-0 mx-2">Monthly</label></h6>
-                <div class="d-flex mb-3 gap-4" >
-                    
-                    <input class="form-control" type="file" name="file" accept=".csv" required>
-                    <button type="submit" class="btn btn-success btn-sm">Predict</button>
-                </div>
+<h1 class="container d-flex justify-content-center align-content-center  mt-5">je t'aime bien &#127804;</h1>
+<div class="container d-flex justify-content-center align-content-center pt-5 mt-5">
+    <div class="card shadow-lg m-5 rounded hoverable" style="width: 40rem; height: 30rem;">
+        <img src="/static/img/rice-card.png" class="card-img-top" style="height: 60%;" alt="monthly">
+        <h5 class=" d-flex justify-content-center mt-3">Upload CSV File</h5>
+        
+        <form class="mx-4" action="/predict" method="post" enctype="multipart/form-data">
+            <h6><label for="formFile" class="form-label mt-0 mx-2">Monthly</label></h6>
+            <div class="d-flex mb-3 gap-4">
                 
-            </form>
-        </div>
+                <input class="form-control" type="file" name="file" accept=".csv" required>
+                <button type="submit" class="btn btn-success btn-sm">Predict</button>
+            </div>
+            
+        </form>
+    </div>
 
-        <div class="card shadow-lg m-5 rounded" style="width: 40rem; height: 30rem;">
-            <img src="/static/img/card-rice.png" class="card-img-top" style="height: 60%;" alt="yearly">
-            <h5 class=" d-flex justify-content-center mt-3">Upload CSV File</h5>
-            <form class="mx-4" action="/predict_years" method="post" enctype="multipart/form-data">
-                <h6><label for="formFile" class="form-label mt-0 mx-2">Yearly</label></h6>
-                <div class="d-flex mb-3 gap-4">
-                    
-                    <input class="form-control" type="file" name="file" accept=".csv" required>
-                    <button type="submit" class="btn btn-success btn-sm">Predict</button>
-                </div>
-            </form>
-        </div>
- </div>
+    <div class="card shadow-lg m-5 rounded hoverable" style="width: 40rem; height: 30rem;">
+        <img src="/static/img/card-rice.png" class="card-img-top" style="height: 60%;" alt="yearly">
+        <h5 class=" d-flex justify-content-center mt-3">Upload CSV File</h5>
+        <form class="mx-4" action="/predict_years" method="post" enctype="multipart/form-data">
+            <h6><label for="formFile" class="form-label mt-0 mx-2">Yearly</label></h6>
+            <div class="d-flex mb-3 gap-4">
+                
+                <input class="form-control" type="file" name="file" accept=".csv" required>
+                <button type="submit" class="btn btn-success btn-sm">Predict</button>
+            </div>
+        </form>
+    </div>
+</div>
+
 
 
 {% endblock %}
