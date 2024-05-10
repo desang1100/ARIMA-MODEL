@@ -67,11 +67,11 @@ def predict():
         img_data.seek(0)
         img_base64 = base64.b64encode(img_data.getvalue()).decode()
 
-        #-----------------YEARLY------------------------------------------------------------------------------------------------------>>>>>>>>
-        
-        
-        return render_template('results.html', next_month=next_month, forecast_df=forecast_df.to_html(index=False), plot=img_base64)
+        # Render the template with results
+        return render_template('results.html', next_month=next_month, forecast_df=forecast_df.to_html(index=False, classes="table table-bordered table-striped"), plot=img_base64)
     
+from flask import render_template
+
 @app.route('/predict_years', methods=['POST'])
 def predict_years():
     if request.method == 'POST':
@@ -101,10 +101,6 @@ def predict_years():
                 forecast = arima_model(df[column])
                 forecast_df[column] = forecast
 
-            # Display forecasted prices in a table
-            print(f"\nForecasted prices for {year}:")
-            print(tabulate(forecast_df, headers='keys', tablefmt='grid', showindex=False))
-
             # Plot original data and forecasted values
             plt.figure(figsize=(10, 6))
             for column in df.columns:
@@ -125,8 +121,12 @@ def predict_years():
             img_data.seek(0)
             img_base64 = base64.b64encode(img_data.getvalue()).decode()
 
-            # Pass the plot as base64 encoded image to the template
-            return render_template('results_yearly.html', year=year, forecast_df=forecast_df.to_html(index=False), plot=img_base64)
+            # Generate HTML table
+            html_table = forecast_df.to_html(index=False, classes="table table-bordered table-striped")
+
+            # Render the template with results
+            return render_template('results_yearly.html', year=year, forecast_df=html_table, plot=img_base64)
+
         
 
 if __name__ == '__main__':

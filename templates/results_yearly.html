@@ -1,12 +1,21 @@
 {% extends 'layouts/base.html' %} {% block body %}
-<div class="container">
-    <h1>Rice Prices Forecast for {{ year }}</h1>
+<div class="container d-flex mt-5 rounded-5">
+    <div class="card d-flex mx-5 shadow" style="width: 45rem;">
+        <div class="card-body mt-2">
+            <h5 class="d-flex justify-content-center mt-1">Rice Prices Forecast for {{ year }}</h5>
+            <h6 class="d-flex justify-content-center mt-3">Forecasted Prices Table</h6>
+            
+            <div class=" d-flex justify-content-center mt-2" >
+                {{ forecast_df | safe }}
+            </div>
+        </div>
+    </div>
 
-<h2>Forecasted Prices Table</h2>
-{{ forecast_df | safe }}
-
-<h2>Forecasted Prices Plot</h2>
-<img src="data:image/png;base64,{{ plot }}" alt="Rice Prices Plot">
+    <div class="card d-flex mx-3 shadow-lg" style="width: 80rem; ">
+        <h4 class="d-flex justify-content-center mt-3">Forecasted Prices Plot</h4>
+        <img src="data:image/png;base64,{{ plot }}" alt="Rice Prices Plot">
+        
+    </div>
 </div>
 
 {% endblock %}
