@@ -39,9 +39,9 @@ def login():
         email = request.form['email']
         password = request.form['password']
         cursor = mysql.cursor(dictionary=True)
-        cursor.execute('SELECT * FROM login WHERE email = %s AND password = %s', (email, password,))
-        login = cursor.fetchone()
-        if login:   
+        cursor.execute('SELECT * FROM account WHERE email = %s AND password = %s', (email, password,))
+        account = cursor.fetchone()
+        if account:   
             return redirect(url_for('profile'))
         else:
             msg = 'Incorrect email/password'
@@ -50,18 +50,19 @@ def login():
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     msg = ''
-    if request.method == 'POST' and 'email' in request.form and 'password' in request.form:
+    if request.method == 'POST' and 'username' in request.form and 'email' in request.form and 'password' in request.form:
+        username = request.form['username']
         email = request.form['email']
         password = request.form['password']
         cursor = mysql.cursor(dictionary=True)
-        cursor.execute('SELECT * FROM login WHERE email = %s', (email,))
-        login = cursor.fetchone()
-        if login:
+        cursor.execute('SELECT * FROM account WHERE email = %s', (email,))
+        account = cursor.fetchone()
+        if account:
             msg = 'Account already exists!'
-        elif not email or not password or not email:
+        elif not username or not email or not password:
             msg = 'Please fill out the form.'
         else:
-            cursor.execute('INSERT INTO login VALUES (NULL, %s, %s)', (email, password,))
+            cursor.execute('INSERT INTO account (username, email, password) VALUES (%s, %s, %s)', (username, email, password))
             mysql.commit()
             msg = 'You have successfully sign up!'
     return render_template('signup.html', msg=msg)
