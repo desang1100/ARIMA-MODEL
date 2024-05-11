@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 import pandas as pd
 from statsmodels.tsa.arima.model import ARIMA
 from tabulate import tabulate
@@ -6,8 +6,24 @@ import matplotlib.pyplot as plt
 import base64
 from io import BytesIO
 import os
+import mysql.connector
 
 app = Flask(__name__)
+
+# MYSQL configurations
+app.config['MYSQL_HOST'] = 'localhost'
+app.config['MYSQL_USER'] = 'root'
+app.config['MYSQL_PASSWORD'] = 'password'
+app.config['MYSQL_DB'] = 'db_rice'
+
+# Connect to MySQL
+mysql = mysql.connector.connect(
+    host = app.config['MYSQL_HOST'],
+    user = app.config['MYSQL_USER'],
+    password = app.config['MYSQL_PASSWORD'],
+    database = app.config['MYSQL_DB']
+)
+
 
 # Set the directory where the data file is located
 DATA_DIR = 'data'
@@ -16,6 +32,40 @@ DATA_DIR = 'data'
 def upload_file():
     return render_template('arima.html')
 
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    msg = ''
+    if request.method == 'POST' and 'email' in request.form and 'password' in request.form:
+        email = request.form['email']
+        password = request.form['password']
+        cursor = mysql.cursor(dictionary=True)
+        cursor.execute('SELECT * FROM login WHERE email = %s AND password = %s', (email, password))
+        login = cursor.fetchone()
+        if login:
+            return redirect(url_for('profile'))
+        else:
+            msg = 'Incorrect email/password'
+    return render_template('login.html', msg=msg)
+
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+    msg = ''
+    if request.method == 'POST' and 'email' in request.form and 'password' in request.form:
+        email = request.form['username']
+        password = request.form['password']
+        cursor = mysql.cursor(dictionary=True)
+        cursor.execute('SELECT * FROM login WHERE email = %s', (email))
+        login = cursor.fetchone()
+        if login:
+            msg = 'Account already exists!'
+        elif not email or not password or not email:
+            msg = 'Please fill out the form.'
+        else:
+            cursor.execute('INSERT INTO login VALUES (NULL, %s, %s, %s)', (email, password))
+            mysql.commit()
+            msg = 'You have successfully sign up!'
+    return render_template('signup.html', msg=msg)
+        
 @app.route('/predict', methods=['POST'])
 def predict():
     if request.method == 'POST':
