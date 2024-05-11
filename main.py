@@ -13,7 +13,7 @@ app = Flask(__name__)
 # MYSQL configurations
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'password'
+app.config['MYSQL_PASSWORD'] = ''
 app.config['MYSQL_DB'] = 'db_rice'
 
 # Connect to MySQL
@@ -39,9 +39,9 @@ def login():
         email = request.form['email']
         password = request.form['password']
         cursor = mysql.cursor(dictionary=True)
-        cursor.execute('SELECT * FROM login WHERE email = %s AND password = %s', (email, password))
+        cursor.execute('SELECT * FROM login WHERE email = %s AND password = %s', (email, password,))
         login = cursor.fetchone()
-        if login:
+        if login:   
             return redirect(url_for('profile'))
         else:
             msg = 'Incorrect email/password'
@@ -51,20 +51,24 @@ def login():
 def signup():
     msg = ''
     if request.method == 'POST' and 'email' in request.form and 'password' in request.form:
-        email = request.form['username']
+        email = request.form['email']
         password = request.form['password']
         cursor = mysql.cursor(dictionary=True)
-        cursor.execute('SELECT * FROM login WHERE email = %s', (email))
+        cursor.execute('SELECT * FROM login WHERE email = %s', (email,))
         login = cursor.fetchone()
         if login:
             msg = 'Account already exists!'
         elif not email or not password or not email:
             msg = 'Please fill out the form.'
         else:
-            cursor.execute('INSERT INTO login VALUES (NULL, %s, %s, %s)', (email, password))
+            cursor.execute('INSERT INTO login VALUES (NULL, %s, %s)', (email, password,))
             mysql.commit()
             msg = 'You have successfully sign up!'
     return render_template('signup.html', msg=msg)
+
+@app.route('/profile')
+def profile():
+    return render_template('arima.html')
         
 @app.route('/predict', methods=['POST'])
 def predict():
