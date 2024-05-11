@@ -1,11 +1,14 @@
-{% extends 'layouts/base.html' %} {% block body %}
+{% extends 'layouts/base.html' %}
+
+{% block body %}
 
 <div class="container d-flex mt-5 pt-5 rounded-5">
     <div class="card d-flex mx-5 shadow-lg hoverable" style="width: 40rem;">
         <div class="card-body mt-4">
             <h5 class="d-flex justify-content-center">Results</h5>
             <h6 class="d-flex justify-content-center mt-3">Predicted prices for next month:</h6>
-            <h6 class="d-flex justify-content-center mt-3"> {{ next_month }}</h6>
+            <!-- Format next_month variable into name of month format -->
+            <h6 class="d-flex justify-content-center mt-1"> {{ next_month.strftime('%B %Y') }}</h6>
             
             <div class="container d-flex justify-content-center mt-5" >
                 
