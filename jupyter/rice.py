@@ -1,4 +1,4 @@
-import pandas as pd
+import csv
 
 rice_prices = {
     "Date": ["01/01/2018", "02/01/2018", "03/01/2018", "04/01/2018", "05/01/2018", "06/01/2018", "07/01/2018", "08/01/2018", "09/01/2018", "10/01/2018", "11/01/2018", "12/01/2018",
@@ -19,9 +19,14 @@ rice_prices = {
     ]
 }
 
-df = pd.DataFrame(rice_prices)
-df['Date'] = pd.to_datetime(df['Date'])
-df.set_index('Date', inplace=True)
+with open('rice_prices.csv', 'w', newline='') as csvfile:
+    csv_writer = csv.writer(csvfile)
 
-# Save DataFrame to CSV
-df.to_csv('rice_prices.csv')
+    # Write the header
+    csv_writer.writerow(rice_prices.keys())
+
+    # Write the rows with each element converted to a string
+    rows = zip(*rice_prices.values())
+    csv_writer.writerows([[str(item) for item in row] for row in rows])
+
+print("CSV file 'rice_prices.csv' has been created.")

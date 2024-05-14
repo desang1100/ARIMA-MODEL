@@ -2,4 +2,4 @@ flask
 statsmodels
 tabulate
 matplotlib
-
+mysql-connector-python
