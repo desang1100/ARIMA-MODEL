@@ -3,3 +3,5 @@ statsmodels
 tabulate
 matplotlib
 mysql-connector-python
+flask_mysqldb
+flask-login

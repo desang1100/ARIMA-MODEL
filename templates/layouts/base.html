@@ -4,18 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ARIMA MODEL</title>
-    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/static/css/style.css">
-    <script src="/static/js/style.js"></script>
-
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="{{ url_for('static', filename='js/style.js') }}"></script>
 </head>
 <body> 
-    {% include 'includes/nav.html' %}
-    {% block body %}
-    
-   
-    {% endblock %}
+    <!-- {% include 'includes/nav.html' %} -->
+    <div class="container">
+        {% block body %}
+        {% endblock %}
+    </div>
     <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
-    <script src="/static/js/style.js"></script>
+    <script src="{{ url_for('static', filename='js/style.js') }}"></script>
 </body>
 </html>
