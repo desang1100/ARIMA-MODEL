@@ -14,12 +14,7 @@
                 {{ forecast_df.to_html(index=False, classes="table table-bordered table-striped") | safe }}
             </div>
 
-            <form action="{{ url_for('save_predictions') }}" method="post">
-                <input type="hidden" name="file_path" value="{{ file_path }}">
-                <input type="hidden" name="next_month" value="{{ next_month }}">
-                <input type="hidden" name="forecast_df" value="{{ forecast_df.to_json() }}">
-                <button type="submit" class="btn btn-primary mt-3">Save</button>
-            </form>
+            
         </div>
     </div>
 

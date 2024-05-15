@@ -154,7 +154,8 @@ def predict():
         img_base64 = base64.b64encode(img_data.getvalue()).decode()
 
         # Render the template with results
-        return render_template('results.html', next_month=next_month, forecast_df=forecast_df.to_html(index=False, classes="table table-bordered table-striped"), plot=img_base64)
+        return render_template('results.html', next_month=next_month, forecast_df=forecast_df, plot=img_base64)
+
 
 @app.route('/predict_years', methods=['POST'])
 @login_required
