@@ -1,35 +1,52 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+
+<div class="container d-flex justify-content-center align-content-center pt-0 mt-5">
+  <div class="card shadow-lg m-5 rounded hoverable rounded-5" style="width: 40rem; height: auto; ">
+      <h1 class=" d-flex justify-content-center mt-3">Sign Up</h1>
+      <div class="d-flex justify-content-center mt-5">
+        <form action="/signup" method="post">
+        <!---------------------FIRSTNAME-------------------------------------->
+          <div class="form-group">
+            <label for="fname">Firstname</label><br>
+            <input type="text" class="form-control" name="fname" required><br>
+          </div>
+          <!---------------------MIDDLENAME-------------------------------------->
+
+          <div class="form-group">
+            <label for="mname">Middlename</label><br>
+            <input type="text" class="form-control" name="mname" required><br>
+          </div>
 
 
-     <h1>Sign Up</h1>
-      <form action="" method="post">
-      <!---------------------FIRSTNAME-------------------------------------->
+          <!---------------------LASTNAME-------------------------------------->
 
-        <label for="fname">Firstname</label><br>
-        <input type="text" name="fname" ><br>
-        
-      <!---------------------MIDDLENAME-------------------------------------->
+          <div class="form-group">
+            <label for="lname">Lastname</label><br>
+            <input type="text" class="form-control" name="lname" required><br>
+          </div>
 
-      <label for="mname">Middlename</label><br>
-      <input type="text" name="mname" required><br>
+          <!---------------------EMAIL-------------------------------------->
 
-
-      <!---------------------LASTNAME-------------------------------------->
-
-        <label for="lname">Lastname</label><br>
-        <input type="text" name="lname" required><br>
-
-      <!---------------------EMAIL-------------------------------------->
-
-        <label for="email">Email</label><br>
-        <input type="text" name="email" required><br>
+          <div class="form-group">
+            <label for="email">Email</label><br>
+            <input type="text" class="form-control" name="email" required><br>
+          </div>
 
 
-        <label for="password">Password</label><br>
-        <input type="password" name="password" required><br>
-        <input type="submit" value="Sign Up">
-      </form>
-      {% if msg %}
-        <p>{{ msg }}</p>
-      {% endif %}
+          <div class="form-group">
+            <label for="password">Password</label><br>
+            <input type="text" class="form-control" name="password" required><br>
+          </div>
 
+          <button type="submit" class="btn btn-primary mb-5">Sign Up</button>
+        </form>
+        </div>
+        {% if msg %}
+          <p>{{ msg }}</p>
+        {% endif %}
+  </div>
+</div>
+{% endblock %}
     

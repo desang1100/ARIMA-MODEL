@@ -1,6 +1,6 @@
 {% extends 'layouts/base.html' %}
 
-{% block body %}
+{% block content %}
 
 <div class="container d-flex mt-5 pt-5 rounded-5">
     <div class="card d-flex mx-5 shadow-lg hoverable" style="width: 40rem;">
@@ -8,18 +8,23 @@
             <h5 class="d-flex justify-content-center">Results</h5>
             <h6 class="d-flex justify-content-center mt-3">Predicted prices for next month:</h6>
             <!-- Format next_month variable into name of month format -->
-            <h6 class="d-flex justify-content-center mt-1"> {{ next_month.strftime('%B %Y') }}</h6>
+            <h6 class="d-flex justify-content-center mt-1">{{ next_month.strftime('%B %Y') }}</h6>
             
-            <div class="container d-flex justify-content-center mt-5" >
-                
-                {{ forecast_df | safe }}
+            <div class="container d-flex justify-content-center mt-5">
+                {{ forecast_df.to_html(index=False, classes="table table-bordered table-striped") | safe }}
             </div>
+
+            <form action="{{ url_for('save_predictions') }}" method="post">
+                <input type="hidden" name="file_path" value="{{ file_path }}">
+                <input type="hidden" name="next_month" value="{{ next_month }}">
+                <input type="hidden" name="forecast_df" value="{{ forecast_df.to_json() }}">
+                <button type="submit" class="btn btn-primary mt-3">Save</button>
+            </form>
         </div>
     </div>
 
     <div class="card d-flex mx-3 shadow-lg hoverable" style="width: 80rem;">
         <img src="data:image/png;base64,{{ plot }}" alt="Rice Prices Forecast">
-        
     </div>
 </div>
 
