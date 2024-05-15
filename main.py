@@ -8,26 +8,23 @@ import os
 import mysql.connector
 from db import create_db
 from functools import wraps
+from flask import send_file
+from io import StringIO 
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
 
 # Create database and tables if they don't exist
 create_db()
+from flask_mysqldb import MySQLdb
 
-# MYSQL configurations
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = ''
-app.config['MYSQL_DB'] = 'db_rice'
+# MySQL Configuration
+DB_HOST = 'localhost'
+DB_USER = 'root'
+DB_PASSWORD = ''
+DB_NAME = 'db_rice'
 
-# Connect to MySQL
-mysql = mysql.connector.connect(
-    host=app.config['MYSQL_HOST'],
-    user=app.config['MYSQL_USER'],
-    password=app.config['MYSQL_PASSWORD'],
-    database=app.config['MYSQL_DB']
-)
+
 
 # Set the directory where the data file is located
 DATA_DIR = 'data'
@@ -101,6 +98,7 @@ def signup():
 def profile():
     return render_template('arima.html')
 
+
 @app.route('/predict', methods=['POST'])
 @login_required
 def predict():
@@ -153,8 +151,12 @@ def predict():
         img_data.seek(0)
         img_base64 = base64.b64encode(img_data.getvalue()).decode()
 
-        # Render the template with results
-        return render_template('results.html', next_month=next_month, forecast_df=forecast_df, plot=img_base64)
+        # Convert forecast_df to string format
+        forecast_df_str = forecast_df.astype(str)
+
+        # Render the template with results and forecast_df_str
+        return render_template('results.html', next_month=next_month, forecast_df=forecast_df_str, plot=img_base64)
+
 
 
 @app.route('/predict_years', methods=['POST'])
@@ -212,6 +214,7 @@ def predict_years():
 
             # Render the template with results
             return render_template('results_yearly.html', year=year, forecast_df=html_table, plot=img_base64)
+
 
 if __name__ == '__main__':
     app.run(debug=True)

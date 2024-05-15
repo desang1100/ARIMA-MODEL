@@ -31,6 +31,16 @@ def create_db():
         )
     """)
     conn.commit()
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS forecast_data (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        WELL_MILLED VARCHAR(100) NOT NULL,
+        REGULAR_MILLED VARCHAR(100) NOT NULL,
+        SPECIAL VARCHAR(100) NOT NULL
+    )
+""")
+    conn.commit()
+
 
 
     cursor.close()
