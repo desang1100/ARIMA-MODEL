@@ -39,12 +39,12 @@ def login_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
-@app.route('/')
-@login_required
-def upload_file():
-    return render_template('arima.html')
+#@app.route('/')
+#@login_required
+#def upload_file():
+#    return render_template('arima.html')
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST'])
 def login():
     msg = ''
     if request.method == 'POST':
@@ -91,7 +91,7 @@ def signup():
             cursor.execute('INSERT INTO users (email, fname, mname, lname, password) VALUES (%s, %s, %s, %s, %s)', (email, fname, mname, lname, password))
             mysql.commit()
             msg = 'You have successfully signed up!'
-    return render_template('signup.html', msg=msg)
+    return render_template('login.html', msg=msg)
 
 @app.route('/profile')
 @login_required
