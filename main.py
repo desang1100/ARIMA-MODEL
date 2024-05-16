@@ -23,51 +23,70 @@ DB_HOST = 'localhost'
 DB_USER = 'root'
 DB_PASSWORD = ''
 DB_NAME = 'db_rice'
-
+cred = {
+    'host': DB_HOST,
+    'user': DB_USER,
+    'pw': DB_PASSWORD,
+    'db_name': DB_NAME
+}
 
 
 # Set the directory where the data file is located
 DATA_DIR = 'data'
 
-# Login required decorator
-def login_required(f):
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        if 'loggedin' not in session:
-            flash('Please login to access this page.', 'danger')
-            return redirect(url_for('login'))
-        return f(*args, **kwargs)
-    return decorated_function
+def login_required(route):
+    @wraps(route)
+    def wrap(*args, **kwargs):
+        if 'logged' in session:
+            return route(*args, **kwargs)
+        else:
+            return redirect(url_for("login"))
+    return wrap
 
-#@app.route('/')
-#@login_required
-#def upload_file():
-#    return render_template('arima.html')
+def connection():
+    try:
+        conn = MySQLdb.connect(host=cred['host'], user=cred['user'], password=cred['pw'], db=cred['db_name'])
+        return conn
+    except Exception as e:
+        print("Error connecting to database:", e)
+        return None
+
+@app.route('/sign')
+def sign():
+    return render_template('signup.html')
 
 @app.route('/', methods=['GET', 'POST'])
 def login():
-    msg = ''
-    if request.method == 'POST':
-        email = request.form['email']
-        password = request.form['password']
-        cursor = mysql.cursor(dictionary=True)
-        cursor.execute('SELECT * FROM users WHERE email = %s AND password = %s', (email, password,))
-        account = cursor.fetchone()
-        if account:
-            session['loggedin'] = True
-            session['id'] = account['id']
-            session['email'] = account['email']
-            return redirect(url_for('profile'))
-        else:
-            msg = 'Incorrect email/password'
-    return render_template('login.html', msg=msg)
+    message = ''
+    if 'logged' in session:
+        return redirect(url_for('profile'))
+    else:
+        if request.method == 'POST':
+            email = request.form['email']
+            password = request.form['password']
 
-@app.route('/logout')
+            conn = connection()
+            with conn.cursor() as cur:
+                cur.execute("SELECT * FROM users WHERE email=%s AND password=%s", (email, password))
+                user = cur.fetchone()
+            conn.close()
+
+            if user:
+                session['logged'] = True
+                session['email'] = user[1]
+                session['fname'] = user[2]
+                return redirect(url_for('profile'))
+            else:
+                message = 'Invalid email or password'
+    return render_template('login.html', message=message)
+
+
+@app.route("/logout")
+@login_required
 def logout():
-    session.pop('loggedin', None)
-    session.pop('id', None)
+    session.pop('logged', None)
     session.pop('email', None)
-    flash('You have successfully logged out.', 'success')
+    session.pop('fname', None)
     return redirect(url_for('login'))
 
 @app.route('/signup', methods=['GET', 'POST'])
@@ -80,23 +99,26 @@ def signup():
         email = request.form['email']
         password = request.form['password']
 
-        cursor = mysql.cursor(dictionary=True)
-        cursor.execute('SELECT * FROM users WHERE email = %s', (email,))
-        account = cursor.fetchone()
-        if account:
-            msg = 'Account already exists!'
-        elif not email or not password:
-            msg = 'Please fill out the form.'
-        else:
-            cursor.execute('INSERT INTO users (email, fname, mname, lname, password) VALUES (%s, %s, %s, %s, %s)', (email, fname, mname, lname, password))
-            mysql.commit()
-            msg = 'You have successfully signed up!'
-    return render_template('login.html', msg=msg)
+        conn = connection()
+        with conn.cursor() as cur:
+            cur.execute("SELECT * FROM users WHERE email = %s", [email])
+            account = cur.fetchone()
+            if account:
+                msg = "Account already exists!"
+            else:
+                msg = "Account created successfully!"
+                cur.execute("INSERT INTO users VALUES(NULL, %s, %s, %s, %s, %s)", (email, fname, mname, lname, password))
+                conn.commit()
+        conn.close()
+    return redirect(url_for("login"))
+
 
 @app.route('/profile')
 @login_required
 def profile():
-    return render_template('arima.html')
+    fname = session.get('fname', '')
+    return render_template('arima.html', fname=fname)
+
 
 
 @app.route('/predict', methods=['POST'])
