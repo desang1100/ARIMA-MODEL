@@ -4,10 +4,10 @@
 <div class="container d-flex justify-content-center align-content-center pt-0 mt-2">
     <div class="card shadow-lg m-5 rounded hoverable" style="width: 40rem; height: 30rem;">
         <img src="/static/img/rice-card.png" class="card-img-top" style="height: 55%;" alt="monthly">
-        <h5 class=" d-flex justify-content-center mt-4">Upload CSV File</h5>
+        <h5 class=" d-flex justify-content-center mt-4">Monthly Forecasting</h5>
         
         <form class="mx-4" action="/predict" method="post" enctype="multipart/form-data">
-            <h6><label for="formFile" class="form-label mt-0 mx-2">Monthly Forecasting</label></h6>
+            <h6><label for="formFile" class="form-label mt-0 mx-2">Upload CSV File</label></h6>
             <div class="d-flex mb-3 gap-4">
                 
                 <input class="form-control" type="file" name="file" accept=".csv" required>
@@ -19,9 +19,9 @@
 
     <div class="card shadow-lg m-5 rounded hoverable" style="width: 40rem; height: 30rem;">
         <img src="/static/img/card-rice.png" class="card-img-top" style="height: 55%;" alt="yearly">
-        <h5 class=" d-flex justify-content-center mt-4">Upload CSV File</h5>
+        <h5 class=" d-flex justify-content-center mt-4">Yearly Forecasting</h5>
         <form class="mx-4" action="/predict_years" method="post" enctype="multipart/form-data">
-            <h6><label for="formFile" class="form-label mt-0 mx-2">Yearly Forecasting</label></h6>
+            <h6><label for="formFile" class="form-label mt-0 mx-2">Upload CSV File</label></h6>
             <div class="d-flex mb-3 gap-4">
                 
                 <input class="form-control" type="file" name="file" accept=".csv" required>
@@ -30,7 +30,5 @@
         </form>
     </div>
 </div>
-
-
 
 {% endblock %}

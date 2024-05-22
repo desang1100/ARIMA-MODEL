@@ -1,8 +1,8 @@
-{% extends 'layouts/base.html' %}
+{% extends 'layouts/index.html' %}
 
 {% block content %}
 
-<div class="container d-flex justify-content-center align-content-center pt-0 mt-0">
+<div class="container d-flex justify-content-center align-content-center pt-0 mt-4">
   <div class="card shadow-lg m-5 rounded hoverable rounded-5" style="width: 40rem; height: auto; ">
       <h1 class=" d-flex justify-content-center mt-3">Sign Up</h1>
       <div class="d-flex justify-content-center mt-5">
@@ -38,6 +38,9 @@
           <div class="form-group">
             <label for="password">Password</label><br>
             <input type="text" class="form-control" name="password" required><br>
+          </div>
+          <div class="login d-flex justify-content-end mb-4">
+            <a href="/">Already have an account?</a>
           </div>
           <div class="d-flex justify-content-center mt-3">
             <button type="submit" class="btn btn-success mb-5">Sign Up</button>
