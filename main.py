@@ -57,7 +57,6 @@ def sign():
 
 @app.route('/', methods=['GET', 'POST'])
 def login():
-    message = ''
     if 'logged' in session:
         return redirect(url_for('profile'))
     else:
@@ -77,8 +76,10 @@ def login():
                 session['fname'] = user[2]
                 return redirect(url_for('profile'))
             else:
-                message = 'Invalid email or password'
-    return render_template('login.html', message=message)
+                flash('Invalid email or password')
+                return redirect(url_for('login'))
+    return render_template('login.html')
+
 
 
 @app.route("/logout")
@@ -91,7 +92,6 @@ def logout():
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
-    msg = ''
     if request.method == 'POST':
         fname = request.form['fname']
         lname = request.form['lname']
@@ -104,13 +104,16 @@ def signup():
             cur.execute("SELECT * FROM users WHERE email = %s", [email])
             account = cur.fetchone()
             if account:
-                msg = "Account already exists!"
+                flash("Email already registered!")
+                return redirect(url_for("signup"))
             else:
-                msg = "Account created successfully!"
                 cur.execute("INSERT INTO users VALUES(NULL, %s, %s, %s, %s, %s)", (email, fname, mname, lname, password))
                 conn.commit()
+                flash("Account created successfully!")
+                return redirect(url_for("login"))
         conn.close()
-    return redirect(url_for("login"))
+    return render_template('signup.html')
+
 
 
 @app.route('/profile')

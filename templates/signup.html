@@ -1,7 +1,6 @@
 {% extends 'layouts/index.html' %}
 
 {% block content %}
-
 <div class="container d-flex justify-content-center align-content-center pt-0 mt-4">
   <div class="card shadow-lg m-5 rounded hoverable rounded-5" style="width: 40rem; height: auto; ">
       <h1 class=" d-flex justify-content-center mt-3">Sign Up</h1>
@@ -19,7 +18,6 @@
             <input type="text" class="form-control" name="mname" required><br>
           </div>
 
-
           <!---------------------LASTNAME-------------------------------------->
 
           <div class="form-group">
@@ -34,7 +32,6 @@
             <input type="text" class="form-control" name="email" required><br>
           </div>
 
-
           <div class="form-group">
             <label for="password">Password</label><br>
             <input type="text" class="form-control" name="password" required><br>
@@ -46,11 +43,19 @@
             <button type="submit" class="btn btn-success mb-5">Sign Up</button>
           </div>
         </form>
-        </div>
-        {% if msg %}
-          <p>{{ msg }}</p>
+      </div>
+      <div class="container px-5" >
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          <div class="alert alert-danger p-5" style="height: 30px;" role="alert">
+            {% for message in messages %}
+              <p>{{ message }}</p>
+            {% endfor %}
+          </div>
         {% endif %}
+      {% endwith %}
+      </div>
+      
   </div>
 </div>
 {% endblock %}
-    

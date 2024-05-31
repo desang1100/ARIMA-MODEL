@@ -5,7 +5,7 @@
   <div class="card shadow-lg m-5 rounded hoverable rounded-5" style="width: 60rem; height: 35rem;">
         <h1 class=" d-flex justify-content-center mt-5">Login</h1>
           <div class=" container-fluid d-flex justify-content-center mt-5">
-            <form action="" method="post">
+            <form action="/" method="post">
               <div class="form-group" style="width: 450px;">
                 <label for="email">Email</label>
                 <input type="email" class="form-control" name="email" required>
@@ -19,10 +19,18 @@
               </div>
             </form>
           </div>
-        {% if msg %}
-          <p>{{ msg }}</p>
-        {% endif %}
+          <div class="container mx-2">
+            {% with messages = get_flashed_messages() %}
+              {% if messages %}
+                <div class="alert alert-danger mt-4" style="width: 890px;" role="alert">
+                  {% for message in messages %}
+                    <p>{{ message }}</p>
+                  {% endfor %}
+                </div>
+              {% endif %}
+            {% endwith %}
+          </div>
+      
   </div>
 </div>
 {% endblock %}
-
