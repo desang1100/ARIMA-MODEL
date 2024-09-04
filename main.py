@@ -30,7 +30,6 @@ cred = {
     'db_name': DB_NAME
 }
 
-
 # Set the directory where the data file is located
 DATA_DIR = 'data'
 
